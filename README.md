@@ -28,7 +28,7 @@ pipelines:
 repos:
   # Update the repo URL below with the URL of your new Shared Core Scripts Repository!
   - repo: https://github.com/brucem1976/pre-commit-scripts
-    rev: v1.0.7
+    rev: v1.0.11
     hooks:
       # Commit-time hooks (run on `git commit`)
       - id: check-branch-name
@@ -63,7 +63,7 @@ repos:
 repos:
   # Update the repo URL below with the URL of your new Shared Core Scripts Repository!
   - repo: https://github.com/brucem1976/pre-commit-scripts
-    rev: v1.0.7
+    rev: v1.0.11
     hooks:
       # Commit-time hooks (run on `git commit`)
       - id: check-branch-name
