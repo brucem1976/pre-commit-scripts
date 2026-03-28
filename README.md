@@ -25,12 +25,12 @@ pipelines:
 
 ## Example `.pre-commit-config.yaml` file (React/Node):
 ```
+fail_fast: true
 repos:
   # Update the repo URL below with the URL of your new Shared Core Scripts Repository!
   - repo: https://github.com/brucem1976/pre-commit-scripts
-    rev: v1.0.11
+    rev: v1.0.18
     hooks:
-      # Commit-time hooks (run on `git commit`)
       - id: check-branch-name
       - id: check-commit-msg
       - id: block-dependency-changes
@@ -38,8 +38,11 @@ repos:
       - id: eslint
       - id: jest
       - id: patch-coverage
-          args: ['--threshold=80']
-          verbose: true
+        args: ['--skip-tests', '--threshold=80']
+        verbose: true
+      - id: patch-coverage-manual
+        args: ['--threshold=80']
+        verbose: true
       
       # CI/PR-time hooks (run in three phases for optimal parallelism)
       # Phase 1: Dependencies (runs first, sequentially)
@@ -56,22 +59,27 @@ repos:
       - id: audit
 ```
 
-## Example postinstall script for `package.json`
+## Example postinstall and test script for `package.json`
 ```
-"postinstall": "pre-commit install --hook-type pre-commit --hook-type commit-msg --hook-type post-merge"
+"postinstall": "pre-commit install --hook-type pre-commit --hook-type commit-msg --hook-type post-merge",
+"test:patch": "pre-commit run patch-coverage-manual --hook-stage manual",
 ```
 
 ## Example `.pre-commit-config.yaml` file (PHP):
 ```
+fail_fast: true
 repos:
   # Update the repo URL below with the URL of your new Shared Core Scripts Repository!
   - repo: https://github.com/brucem1976/pre-commit-scripts
-    rev: v1.0.11
+    rev: v1.0.18
     hooks:
       # Commit-time hooks (run on `git commit`)
       - id: check-branch-name
       - id: check-commit-msg
       - id: patch-coverage
+        args: ['--skip-tests', '--threshold=80']
+        verbose: true
+      - id: patch-coverage-manual
         args: ['--threshold=80']
         verbose: true
       
