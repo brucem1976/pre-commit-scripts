@@ -4,6 +4,9 @@ set -e
 echo "==== 0. Enforcing JIRA PR Compliance ===="
 ./pr-compliance.sh
 
+echo "==== 0.5 Enforcing Required PR Approvers ===="
+./check-pr-approvers.sh
+
 echo "==== 1. Installing Clean Dependencies ===="
 yarn install --frozen-lockfile
 

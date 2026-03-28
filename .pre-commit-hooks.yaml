@@ -50,3 +50,59 @@
   language: fail
   files: ^(yarn\.lock|package-lock\.json|package\.json)$
   stages: [commit]
+
+- id: check-pr-approvers
+  name: Enforce Required PR Approvers
+  description: Validates that all members specified in REQUIRED_CHECKERS have approved the Pull Request in Bitbucket.
+  entry: ./check-pr-approvers.sh
+  language: script
+  pass_filenames: false
+  stages: [manual]
+
+- id: pr-compliance
+  name: JIRA PR Compliance Check
+  description: Validates PR compliance with JIRA requirements
+  entry: ./pr-compliance.sh
+  language: script
+  pass_filenames: false
+  stages: [manual]
+
+- id: install-dependencies
+  name: Install Clean Dependencies
+  description: Installs dependencies with frozen lockfile
+  entry: bash -c 'yarn install --frozen-lockfile'
+  language: system
+  pass_filenames: false
+  stages: [manual]
+
+- id: type-check
+  name: TypeScript Type Check
+  description: Validates TypeScript constraints across the project
+  entry: bash -c 'yarn type-check'
+  language: system
+  pass_filenames: false
+  stages: [manual]
+
+- id: lint
+  name: ESLint Code Style (Global)
+  description: Enforces global code style with ESLint
+  entry: bash -c 'yarn lint'
+  language: system
+  pass_filenames: false
+  stages: [manual]
+
+- id: test
+  name: Jest Test Suites (Global)
+  description: Runs all Jest test suites
+  entry: bash -c 'yarn test'
+  language: system
+  pass_filenames: false
+  stages: [manual]
+
+- id: audit
+  name: Security Audit
+  description: Audits dependencies for critical security vulnerabilities
+  entry: bash -c 'yarn audit --level critical'
+  language: system
+  pass_filenames: false
+  stages: [manual]
