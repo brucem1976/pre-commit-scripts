@@ -56,8 +56,16 @@
   files: ^(yarn\.lock|package-lock\.json|package\.json)$
   stages: [commit]
 
+- id: patch-coverage
+  name: PR Coverage (Auto Commit)
+  description: Validates that patch coverage meets the defined threshold
+  entry: ./check-patch-coverage.sh
+  language: script
+  stages: [commit]
+
+# We need 2 so we can inject different params
 - id: patch-coverage-manual
-  name: PR Coverage
+  name: PR Coverage (Manual Flow)
   description: Fully runs tests natively for manual execution
   entry: ./check-patch-coverage.sh
   language: script
