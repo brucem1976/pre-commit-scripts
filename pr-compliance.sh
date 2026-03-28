@@ -75,11 +75,11 @@ if [ -n "$DEST_BRANCH" ]; then
   # Find all files modified in this specific Pull Request
   CHANGED_FILES=$(git diff --name-only origin/$DEST_BRANCH...HEAD || true)
   
-  if echo "$CHANGED_FILES" | grep -qE "yarn\.lock|package-lock\.json"; then
+  if echo "$CHANGED_FILES" | grep -qE "yarn\.lock|package-lock\.json|package\.json"; then
     echo -e "\n\033[1;31m❌ ERROR: Unauthorized Dependency Change Detected!\033[0m"
-    echo "You have modified a lockfile ('yarn.lock' or 'package-lock.json') in this Pull Request."
+    echo "You have modified a configuration file ('package.json', 'yarn.lock' or 'package-lock.json') in this Pull Request."
     echo "Developers are explicitly forbidden from upgrading or adding new NPM dependencies natively."
-    echo "Please revert your lockfiles to pass this Pipeline."
+    echo "Please revert your changes to pass this Pipeline."
     exit 1
   fi
   echo "✅ No unauthorized dependency lockfiles were modified."
