@@ -1,5 +1,5 @@
-- id: shared-prettier
-  name: Prettier (Shared Standard)
+- id: prettier
+  name: Prettier (commit-specific)
   description: Triggers the consumer's local Prettier formatter
   entry: yarn prettier --write
   language: system
@@ -8,8 +8,8 @@
   pass_filenames: true
   stages: [commit]
 
-- id: shared-eslint
-  name: ESLint (Shared Standard)
+- id: eslint
+  name: ESLint (commit-specific)
   description: Triggers the consumer's local ESLint auto-fixer
   entry: yarn eslint --fix
   language: system
@@ -18,8 +18,8 @@
   pass_filenames: true
   stages: [commit]
 
-- id: shared-jest
-  name: Jest (Related Tests via Shared)
+- id: jest
+  name: Jest (commit-specific)
   description: Triggers local Jest specifically for files pushed in the commit
   entry: yarn test --bail --findRelatedTests --passWithNoTests
   language: system
