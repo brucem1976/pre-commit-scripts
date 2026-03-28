@@ -56,16 +56,8 @@
   files: ^(yarn\.lock|package-lock\.json|package\.json)$
   stages: [commit]
 
-- id: patch-coverage
-  name: Patch Coverage (Auto Commit)
-  description: Validates that patch coverage meets the defined threshold
-  entry: ./check-patch-coverage.sh
-  args: ['--skip-tests']
-  language: script
-  stages: [commit]
-
 - id: patch-coverage-manual
-  name: Patch Coverage (Manual Flow)
+  name: PR Coverage
   description: Fully runs tests natively for manual execution
   entry: ./check-patch-coverage.sh
   language: script
