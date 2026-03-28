@@ -37,7 +37,7 @@
   stages: [commit]
 
 - id: check-commit-msg
-  name: Enforce JIRA Commit Message Prefix
+  name: Enforce JIRA Commit Message Prefix.
   description: Verifies commit message starts with the JIRA ticket from the active branch
   entry: ./check-commit-msg.sh
   language: script
