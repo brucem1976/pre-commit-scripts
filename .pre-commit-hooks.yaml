@@ -46,7 +46,12 @@
 - id: block-dependency-changes
   name: Block Dependency Updates
   description: Explicitly forbids developers from committing changes to yarn.lock or package-lock.json
-  entry: ❌ UNAUTHORIZED! You are not authorized to upgrade or alter NPM dependencies. Please revert your changes to package.json and/or lockfiles.
+  entry: |
+    echo -e "\n\033[1;31m❌ ERROR: Unauthorized Dependency Change Detected!\033[0m"
+    echo "You have modified a configuration file ('package.json', 'yarn.lock' or 'package-lock.json')."
+    echo "Developers are explicitly forbidden from upgrading or adding new NPM dependencies natively."
+    echo "Please revert your changes to pass this Pipeline."
+    exit 1
   language: fail
   files: ^(yarn\.lock|package-lock\.json|package\.json)$
   stages: [commit]

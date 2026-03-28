@@ -1,4 +1,8 @@
-Example `bitbucket-pipelines.yaml` file (using pre-commit hooks):
+# Pre-Commit Scripts
+
+A collection of reusable pre-commit hooks and CI scripts for JIRA-compliant development workflows.
+
+## Example `bitbucket-pipelines.yaml` file (using pre-commit hooks):
 ```
 image: node:20
 
@@ -19,7 +23,7 @@ pipelines:
             - pre-commit run type-check lint test audit --hook-stage=manual --parallel
 ```
 
-Example `.pre-commit-config.yaml` file:
+## Example `.pre-commit-config.yaml` file (React/Node):
 ```
 repos:
   # Update the repo URL below with the URL of your new Shared Core Scripts Repository!
@@ -49,7 +53,23 @@ repos:
       - id: audit
 ```
 
-Example postinstall script for `package.json`
+## Example postinstall script for `package.json`
 ```
 "postinstall": "pre-commit install --hook-type pre-commit --hook-type commit-msg --hook-type post-merge"
+```
+
+## Example `.pre-commit-config.yaml` file (PHP):
+```
+repos:
+  # Update the repo URL below with the URL of your new Shared Core Scripts Repository!
+  - repo: https://github.com/brucem1976/pre-commit-scripts
+    rev: v1.0.7
+    hooks:
+      # Commit-time hooks (run on `git commit`)
+      - id: check-branch-name
+      - id: check-commit-msg
+      
+      # CI/PR-time hooks
+      - id: pr-compliance
+      - id: check-pr-approvers
 ```

@@ -1,15 +1,16 @@
 #!/bin/bash
 set -e
 
+# Source common functions
+source "$(dirname "$0")/common.sh"
+
 # These variables are automatically injected by Bitbucket Pipelines on a Pull Request build!
 BRANCH=$BITBUCKET_BRANCH
 DEST_BRANCH=$BITBUCKET_PR_DESTINATION_BRANCH
 PR_ID=$BITBUCKET_PR_ID
 
 echo "==== 1. Validating PR Branch Name ===="
-REGEX="^(feature|task|bugfix)/[[:upper:]]+-[0-9]+(-[[:lower:]0-9]+)*$"
-
-if [[ ! $BRANCH =~ $REGEX ]]; then
+if ! validate_branch_name "$BRANCH"; then
   echo -e "\n\033[1;31m❌ ERROR: Invalid Branch Name: '$BRANCH'\033[0m"
   echo "Branch must match: (feature|task|bugfix)/ABC-1234-lowercase-words"
   exit 1
@@ -17,9 +18,7 @@ fi
 echo "✅ Branch Name is perfectly formatted."
 
 # Extract Ticket for commit/title checks
-if [[ $BRANCH =~ ^(feature|task|bugfix)/([[:upper:]]+-[0-9]+) ]]; then
-  TICKET="${BASH_REMATCH[2]}"
-fi
+TICKET=$(extract_jira_ticket "$BRANCH")
 
 echo ""
 echo "==== 2. Validating All Commit Messages in PR ===="
@@ -33,7 +32,7 @@ else
 
   for COMMIT in $COMMITS; do
     MESSAGE=$(git log --format=%B -n 1 $COMMIT | head -n 1)
-    if [[ ! "$MESSAGE" == "$TICKET: "* ]]; then
+    if ! validate_commit_message "$MESSAGE" "$TICKET"; then
       echo -e "\n\033[1;31m❌ ERROR: Invalid Commit Message in commit: $COMMIT\033[0m"
       echo "Message typed: '$MESSAGE'"
       echo "Every individual commit in this PR MUST start exactly with: '$TICKET: '"
@@ -74,12 +73,9 @@ echo "==== 4. Restricting Dependency Updates ===="
 if [ -n "$DEST_BRANCH" ]; then
   # Find all files modified in this specific Pull Request
   CHANGED_FILES=$(git diff --name-only origin/$DEST_BRANCH...HEAD || true)
-  
-  if echo "$CHANGED_FILES" | grep -qE "yarn\.lock|package-lock\.json|package\.json"; then
-    echo -e "\n\033[1;31m❌ ERROR: Unauthorized Dependency Change Detected!\033[0m"
-    echo "You have modified a configuration file ('package.json', 'yarn.lock' or 'package-lock.json') in this Pull Request."
-    echo "Developers are explicitly forbidden from upgrading or adding new NPM dependencies natively."
-    echo "Please revert your changes to pass this Pipeline."
+
+  if check_dependency_changes "$CHANGED_FILES"; then
+    error_unauthorized_dependency_change
     exit 1
   fi
   echo "✅ No unauthorized dependency lockfiles were modified."
