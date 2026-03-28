@@ -1,0 +1,40 @@
+- id: shared-prettier
+  name: Prettier (Shared Standard)
+  description: Triggers the consumer's local Prettier formatter
+  entry: yarn prettier --write
+  language: system
+  types: [text]
+  files: \.(js|jsx|ts|tsx|json|md)$
+  pass_filenames: true
+
+- id: shared-eslint
+  name: ESLint (Shared Standard)
+  description: Triggers the consumer's local ESLint auto-fixer
+  entry: yarn eslint --fix
+  language: system
+  types: [text]
+  files: \.(js|jsx|ts|tsx)$
+  pass_filenames: true
+
+- id: shared-jest
+  name: Jest (Related Tests via Shared)
+  description: Triggers local Jest specifically for files pushed in the commit
+  entry: yarn test --bail --findRelatedTests --passWithNoTests
+  language: system
+  types: [text]
+  files: \.(js|jsx|ts|tsx)$
+  pass_filenames: true
+
+- id: check-branch-name
+  name: Enforce JIRA Branch Naming Convention
+  description: Validates branch starts with feature/task/bugfix, has a JIRA ticket, and lowercase words.
+  entry: ./check-branch-name.sh
+  language: script
+  pass_filenames: false
+
+- id: check-commit-msg
+  name: Enforce JIRA Commit Message Prefix
+  description: Verifies commit message starts with the JIRA ticket from the active branch
+  entry: ./check-commit-msg.sh
+  language: script
+  stages: [commit-msg]
