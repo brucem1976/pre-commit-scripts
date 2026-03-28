@@ -6,6 +6,7 @@
   types: [text]
   files: \.(js|jsx|ts|tsx|json|md)$
   pass_filenames: true
+  stages: [commit]
 
 - id: shared-eslint
   name: ESLint (Shared Standard)
@@ -15,6 +16,7 @@
   types: [text]
   files: \.(js|jsx|ts|tsx)$
   pass_filenames: true
+  stages: [commit]
 
 - id: shared-jest
   name: Jest (Related Tests via Shared)
@@ -24,6 +26,7 @@
   types: [text]
   files: \.(js|jsx|ts|tsx)$
   pass_filenames: true
+  stages: [commit]
 
 - id: check-branch-name
   name: Enforce JIRA Branch Naming Convention
@@ -31,6 +34,7 @@
   entry: ./check-branch-name.sh
   language: script
   pass_filenames: false
+  stages: [commit]
 
 - id: check-commit-msg
   name: Enforce JIRA Commit Message Prefix
