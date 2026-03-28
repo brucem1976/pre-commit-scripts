@@ -56,6 +56,14 @@
   files: ^(yarn\.lock|package-lock\.json|package\.json)$
   stages: [commit]
 
+- id: patch-coverage
+  name: Enforce Patch Coverage
+  description: Validates that patch coverage meets the defined threshold
+  entry: ./check-patch-coverage.sh
+  language: script
+  pass_filenames: false
+  stages: [commit, manual]
+
 - id: check-pr-approvers
   name: Enforce Required PR Approvers
   description: Validates that all members specified in REQUIRED_CHECKERS have approved the Pull Request in Bitbucket.
