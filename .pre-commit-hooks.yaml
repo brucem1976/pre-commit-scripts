@@ -64,6 +64,21 @@
   pass_filenames: false
   stages: [commit, manual]
 
+- id: patch-coverage
+  name: Patch Coverage (Auto Commit)
+  description: Validates that patch coverage meets the defined threshold
+  entry: ./check-patch-coverage.sh
+  args: ['--skip-tests']
+  language: script
+  stages: [commit]
+
+- id: patch-coverage-manual
+  name: Patch Coverage (Manual Flow)
+  description: Fully runs tests natively for manual execution
+  entry: ./check-patch-coverage.sh
+  language: script
+  stages: [manual]
+
 - id: check-pr-approvers
   name: Enforce Required PR Approvers
   description: Validates that all members specified in REQUIRED_CHECKERS have approved the Pull Request in Bitbucket.

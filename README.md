@@ -37,6 +37,9 @@ repos:
       - id: prettier
       - id: eslint
       - id: jest
+      - id: patch-coverage
+          args: ['--threshold=80']
+          verbose: true
       
       # CI/PR-time hooks (run in three phases for optimal parallelism)
       # Phase 1: Dependencies (runs first, sequentially)
@@ -68,6 +71,9 @@ repos:
       # Commit-time hooks (run on `git commit`)
       - id: check-branch-name
       - id: check-commit-msg
+      - id: patch-coverage
+        args: ['--threshold=80']
+        verbose: true
       
       # CI/PR-time hooks
       - id: pr-compliance
