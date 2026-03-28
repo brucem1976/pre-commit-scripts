@@ -27,12 +27,12 @@ repos:
     rev: v1.0.7
     hooks:
       # Commit-time hooks (run on `git commit`)
-      - id: prettier
-      - id: eslint
-      - id: jest
       - id: check-branch-name
       - id: check-commit-msg
       - id: block-dependency-changes
+      - id: prettier
+      - id: eslint
+      - id: jest
       
       # CI/PR-time hooks (run in three phases for optimal parallelism)
       # Phase 1: Dependencies (runs first, sequentially)
@@ -47,4 +47,9 @@ repos:
       - id: lint
       - id: test
       - id: audit
+```
+
+Example postinstall script for `package.json`
+```
+"postinstall": "pre-commit install --hook-type pre-commit --hook-type commit-msg --hook-type post-merge"
 ```
