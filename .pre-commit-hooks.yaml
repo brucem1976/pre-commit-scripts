@@ -57,14 +57,6 @@
   stages: [commit]
 
 - id: patch-coverage
-  name: Enforce Patch Coverage
-  description: Validates that patch coverage meets the defined threshold
-  entry: ./check-patch-coverage.sh
-  language: script
-  pass_filenames: false
-  stages: [commit, manual]
-
-- id: patch-coverage
   name: Patch Coverage (Auto Commit)
   description: Validates that patch coverage meets the defined threshold
   entry: ./check-patch-coverage.sh
