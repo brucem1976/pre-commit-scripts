@@ -81,6 +81,7 @@
   entry: bash -c 'yarn type-check'
   language: system
   pass_filenames: false
+  require_serial: false
   stages: [manual]
 
 - id: lint
@@ -89,6 +90,7 @@
   entry: bash -c 'yarn lint'
   language: system
   pass_filenames: false
+  require_serial: false
   stages: [manual]
 
 - id: test
@@ -97,6 +99,7 @@
   entry: bash -c 'yarn test'
   language: system
   pass_filenames: false
+  require_serial: false
   stages: [manual]
 
 - id: audit
@@ -105,4 +108,5 @@
   entry: bash -c 'yarn audit --level critical'
   language: system
   pass_filenames: false
+  require_serial: false
   stages: [manual]
