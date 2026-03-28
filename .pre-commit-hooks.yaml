@@ -37,8 +37,16 @@
   stages: [commit]
 
 - id: check-commit-msg
-  name: Enforce JIRA Commit Message Prefix.
+  name: Enforce JIRA Commit Message Prefix
   description: Verifies commit message starts with the JIRA ticket from the active branch
   entry: ./check-commit-msg.sh
   language: script
   stages: [commit-msg]
+
+- id: block-dependency-changes
+  name: Block Dependency Updates
+  description: Explicitly forbids developers from committing changes to yarn.lock or package-lock.json
+  entry: ❌ UNAUTHORIZED! You are not authorized to upgrade or alter NPM dependencies! Please revert your changes to yarn.lock.
+  language: fail
+  files: ^(yarn\.lock|package-lock\.json)$
+  stages: [commit]
