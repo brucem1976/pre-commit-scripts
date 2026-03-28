@@ -38,7 +38,7 @@ run_jest() {
   else
     # Automatically determine changed files based on the comparison target
     if [ "$COMPARE_TO" = "HEAD" ]; then
-      npx jest --coverage --coverageReporters="lcov" --changedSince="main"
+      npx jest --coverage --coverageReporters="lcov" --onlyChanged
     else
       npx jest --coverage --coverageReporters="lcov" --changedSince="$COMPARE_TO"
     fi
